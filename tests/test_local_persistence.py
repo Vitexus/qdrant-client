@@ -93,20 +93,20 @@ def test_local_dense_persistence():
     with tempfile.TemporaryDirectory() as tmpdir:
         client = ingest_dense_vector_data(path=tmpdir)
         assert client.count(default_collection_name).count == 10
-        del client
+        client.close()
 
         client = ingest_dense_vector_data(path=tmpdir)
         assert client.count(default_collection_name).count == 10
-        del client
+        client.close()
 
         client = ingest_dense_vector_data(path=tmpdir)
-        del client
+        client.close()
 
         client = ingest_dense_vector_data(path=tmpdir, collection_name="example_2")
         assert client.count(default_collection_name).count == 10
         assert client.count("example_2").count == 10
 
-        del client
+        client.close()
 
 
 @pytest.mark.parametrize("add_dense_to_config", [True, False])
@@ -120,7 +120,7 @@ def test_local_sparse_persistence(add_dense_to_config):
             limit=10,
             with_vectors=True,
         )
-        del client
+        client.close()
 
         client = QdrantClient(path=tmpdir)
 
@@ -137,17 +137,18 @@ def test_local_sparse_persistence(add_dense_to_config):
             assert len(pre_result[i].vector["text"].indices) == len(
                 pre_result[i].vector["text"].values
             )
-        del client
+        client.close()
 
         client = ingest_sparse_vector_data(path=tmpdir)
         assert client.count(default_collection_name).count == 10
-        del client
+        client.close()
 
         client = ingest_sparse_vector_data(path=tmpdir)
         client.close()
         client = ingest_sparse_vector_data(path=tmpdir, collection_name="example_2")
         assert client.count(default_collection_name).count == 10
         assert client.count("example_2").count == 10
+        client.close()
 
 
 def test_update_persistence():
@@ -187,7 +188,7 @@ def test_update_persistence():
             "not_important": "missing",
         }
 
-        del client
+        client.close()
 
         client = QdrantClient(path=tmpdir)
         persisted_collection_info = client.get_collection(collection_name)
@@ -199,3 +200,4 @@ def test_update_persistence():
             "important": "meta information",
             "not_important": "missing",
         }
+        client.close()
