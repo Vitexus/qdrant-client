@@ -1,0 +1,40 @@
+Source: qdrant-client
+Section: python
+Priority: optional
+Maintainer: Vítězslav Dvořák <info@vitexsoftware.cz>
+Build-Depends:
+ debhelper-compat (= 13),
+ dh-python,
+ pybuild-plugin-pyproject,
+ python3-all,
+ python3-poetry-core,
+Standards-Version: 4.7.0
+Homepage: https://github.com/qdrant/qdrant-client
+Vcs-Git: https://github.com/Vitexus/qdrant-client.git
+Vcs-Browser: https://github.com/Vitexus/qdrant-client
+Rules-Requires-Root: no
+
+Package: python3-qdrant-client
+Architecture: all
+Multi-Arch: foreign
+Depends:
+ ${misc:Depends},
+ ${python3:Depends},
+ python3-grpcio (>= 1.41.0),
+ python3-h2,
+ python3-httpx (>= 0.20.0),
+ python3-numpy (>= 2.1.0),
+ python3-portalocker (>= 2.7.0),
+ python3-portalocker (<< 4.0~),
+ python3-protobuf (>= 3.20.0),
+ python3-pydantic (>= 1.10.8),
+ python3-urllib3 (>= 1.26.14),
+ python3-urllib3 (<< 3~),
+Description: client library for the Qdrant vector search engine
+ Qdrant (read: quadrant) is a vector similarity search engine. It
+ provides a production-ready service with a convenient API to store,
+ search, and manage points (i.e. vectors) with an additional payload.
+ .
+ This package provides the official Python client library for Qdrant,
+ including both synchronous and asynchronous clients, gRPC and REST
+ transport support, and local (in-memory or on-disk) execution mode.
