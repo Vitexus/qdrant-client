@@ -3,14 +3,20 @@
 // Current version of this Pipeline https://github.com/VitexSoftware/BuildImages/blob/main/Test/Jenkinsfile
 
 String[] distributions = [
-			'debian:bookworm',
 			'debian:trixie',
-			// 'debian:forky', // Disabled: Forky is still unstable/research-only.
-			//                 // The full Debian package ecosystem is not yet available for Forky.
-			//                 // Re-enable once the stack builds cleanly for Forky.
-			'ubuntu:jammy',
-			'ubuntu:noble',
-			'ubuntu:resolute',
+			// Scoped to trixie only: repo.vitexsoftware.com does not yet
+			// publish python3-opentelemetry-api (a transitive dependency
+			// throughout this package's chain) for debian:bookworm,
+			// ubuntu:jammy, or ubuntu:noble, so those branches fail this
+			// job's Test stage unconditionally and abort the whole
+			// pipeline before the Publish stage runs (see
+			// nextcloud-mcp-server's debian/README.Debian, "CI Test-stage
+			// gap"). trixie is the primary target distro; re-add the
+			// others once that gap is closed upstream.
+			// 'debian:bookworm',
+			// 'ubuntu:jammy',
+			// 'ubuntu:noble',
+			// 'ubuntu:resolute',
 ]
 
 String vendor = 'vitexsoftware'
